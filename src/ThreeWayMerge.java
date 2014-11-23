@@ -1,3 +1,5 @@
+import java.util.Random;
+
 
 public class ThreeWayMerge {
 
@@ -62,8 +64,22 @@ public class ThreeWayMerge {
 				if(i<z){
 					return true;
 				}
+				else if(i==z){
+					return true;
+				}
 				else{
 				return false;
+				}
+			}
+			else if(i==j){
+				if(i<z){
+					return true;
+				}
+				else if(i==z){
+					return true;
+				}
+				else{
+					return false;
 				}
 			}
 			else{
@@ -71,10 +87,12 @@ public class ThreeWayMerge {
 			}
 		}
 		public static void Merge(int []Left,int[]Middle,int[]Right,int[]Final){
-
+			
+			
 			int nL=Left.length;
 			int nM=Middle.length;
 			int nR=Right.length;
+			
 			int L=0;
 			int M=0;
 			int R=0;
@@ -83,29 +101,47 @@ public class ThreeWayMerge {
 				int LL=Left[L];
 				int RR=Right[R];
 				int MM=Middle[M];
+			
 				if(Control(LL,RR,MM)){
-					System.out.println("LL="+LL+"; RR="+RR+"; MM="+MM);
-					System.out.println("Control 1");
+			
 					Final[Counter]=Left[L];
 					L++;Counter++;
 				}
 				else if(Control(RR,LL,MM)){
-					System.out.println("LL="+LL+"; RR="+RR+"; MM="+MM);
-					System.out.println("Control 2");
+			
 					Final[Counter]=Right[R];
 					R++;Counter++;
 				}
 				
 				else if(Control(MM,LL,RR)){
-					System.out.println("LL="+LL+"; RR="+RR+"; MM="+MM);
-					System.out.println("Control 3");
+			
 					Final[Counter]=Middle[M];
 					M++;Counter++;
 					}
-				
+				else if(Control(LL,MM,RR)){
+			
+					Final[Counter]=Middle[L];
+					L++;Counter++;
+					}
+				else if(Control(MM,RR,LL)){
+			
+					Final[Counter]=Middle[M];
+					M++;Counter++;
+					}
+				else if(Control(RR,MM,LL)){
+			
+					Final[Counter]=Middle[R];
+					R++;Counter++;
+					}
+				else{
+			
 				}
+			}
+				
+			
 				while(L<nL&&R<nR){
-					if(Left[L]<Right[R]){
+			
+					if(Left[L]<=Right[R]){
 						Final[Counter]=Left[L];
 						L++;Counter++;
 					}
@@ -115,7 +151,8 @@ public class ThreeWayMerge {
 					}
 				}
 				while(L<nL&&M<nM){
-					if(Left[L]<Middle[M]){
+			
+					if(Left[L]<=Middle[M]){
 						Final[Counter]=Left[L];
 						L++;Counter++;
 					}
@@ -126,7 +163,8 @@ public class ThreeWayMerge {
 					}
 				}
 				while(R<nR&&M<nM){
-					if(Right[R]<Middle[M]){
+			
+					if(Right[R]<=Middle[M]){
 						Final[Counter]=Right[R];
 						R++;Counter++;
 					}
@@ -138,14 +176,17 @@ public class ThreeWayMerge {
 					
 				}
 				while(R<nR){
+			
 					Final[Counter]=Right[R];
 					Counter++;R++;
 				}
 				while(L<nL){
+					
 					Final[Counter]=Left[L];
 					Counter++;L++;
 				}
 				while(M<nM){
+					
 					Final[Counter]=Middle[M];
 					M++;Counter++;
 				}
@@ -155,7 +196,7 @@ public class ThreeWayMerge {
 		
 		}
 		public static void MergeSort3(int[]SortingArray){
-			System.out.println("**************Yeni Bastan**************");
+			
 			int i=0;
 			int ArrayLength=SortingArray.length;
 			
@@ -203,18 +244,7 @@ public class ThreeWayMerge {
 				i++;
 				
 			}
-			for(int a=0;a<Left.length;a++){
-				System.out.print(Left[a]+" ");
-			}
-			System.out.println();
-			for(int a=0;a<Middle.length;a++){
-				System.out.print(Middle[a]+" ");
-			}
-			System.out.println();
-			for(int a=0;a<Right.length;a++){
-				System.out.print(Right[a]+" ");
-			}
-			System.out.println();
+			
 			MergeSort3(Left);
 			MergeSort3(Middle);
 			MergeSort3(Right);
@@ -222,16 +252,33 @@ public class ThreeWayMerge {
 			
 			
 		}
-	
+
 	public static void main(String[] args) {
-		int[]deneme={1,2,3,6,4,78,23,9,23,54,23,76,45,33};
-		MergeSort3(deneme);
-		
-		for(int i=0;i<deneme.length;i++){
-			System.out.print(deneme[i]+"  ");
+		int deneme[]=new int[10];
+		Random rand=new Random();
+		for(int i=0;i<10;i++){
+			System.out.println(i);
+			int randomNum = rand.nextInt(5);
+			deneme[i]=randomNum;
 		}
-		MergeSort2(deneme);
+		System.out.println("Basladi");
 		
-	}
+		//Here is 3-Way Merge Sort Algorithm
+		Stopwatch watch2=new Stopwatch();
+		MergeSort2(deneme);
+		double ElapsedTime2=watch2.elapsedTime();
+		System.out.println("Elapsed time 2-WayMerge"+ ElapsedTime2);
+
+		
+		
+		Stopwatch watch3=new Stopwatch();
+		
+		MergeSort3(deneme);
+		System.out.println("Burasi bitti");
+		double ElapsedTime3=watch3.elapsedTime();
+		System.out.println("Elapsed time 3-WayMerge"+ ElapsedTime3);
+		
+		//Here is 2-Way Merge Sort Algorithm
+				}
 
 }
